@@ -3,11 +3,13 @@ import { IPlotPoint } from "../../../models/PlotPoint";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid2";
 import Input from "@mui/material/Input";
+import Button from "@mui/material/Button";
 
 interface IProps {
   index: number;
   values: IPlotPoint;
   onValueChange: (index: number, key: string, value: any) => void;
+  onRollPlotPoint: () => void;
 }
 
 const PlotPointForm: React.FC<IProps> = (props) => {
@@ -17,7 +19,10 @@ const PlotPointForm: React.FC<IProps> = (props) => {
   return (
     <div className="PlotPointForm">
       <Grid container spacing={2}>
-        <Grid size={6}>
+        <Grid size={1}>
+          <Button onClick={props.onRollPlotPoint} variant="outlined">Roll</Button>
+        </Grid>
+        <Grid size={5}>
           <FormControl>
             <Input id="event" name="event" aria-describedby="helper-event" value={props.values.event} onChange={handleOnChange} />
           </FormControl>

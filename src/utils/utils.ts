@@ -5,3 +5,10 @@ export const shuffleArray = (array: any[]) => {
     }
     return array;
 }
+
+export function getEnumNameByValue(enumObj: any, value: number): string | undefined {
+    const keys = Object.keys(enumObj).filter(k => isNaN(Number(k))); // Get only the names
+    const values = Object.values(enumObj).filter(v => !isNaN(Number(v))); // Get only the values
+    const index = values.indexOf(value);
+    return index !== -1 ? keys[index] : undefined;
+}

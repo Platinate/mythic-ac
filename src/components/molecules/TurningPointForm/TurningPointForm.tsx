@@ -18,6 +18,7 @@ interface IProps {
   onValueChange: (index: number, key: string, value: any) => void;
   onAddPlotPointClick: (index: number) => void;
   onPlotPointValueChange: (turningPointindex: number, plotPointIndex: number, key: string, value: any) => void;
+  onRollPlotPoint: () => void;
 }
 const TurningPointForm: React.FC<IProps> = (props) => {
   const handleOnChange = (evt) => {
@@ -56,7 +57,7 @@ const TurningPointForm: React.FC<IProps> = (props) => {
         <Grid size={6}><h4>Invoked Characters</h4></Grid>
         {props.values.plotPoints.map((pp, index) => (
           <Grid size={12} key={index}>
-            <PlotPointForm values={pp} index={index} onValueChange={handleOnPlotPointValueChange} />
+            <PlotPointForm values={pp} index={index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
           </Grid>
         ))}
         <Grid size={12}>

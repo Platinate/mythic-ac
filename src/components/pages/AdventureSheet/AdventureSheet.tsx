@@ -1,26 +1,34 @@
 import React, { useState } from "react";
+// MUI Components
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Snackbar from "@mui/material/Snackbar";
+// Components
+import TurningPointForm from "../../molecules/TurningPointForm/TurningPointForm";
+// MUI Icons
 import ShuffleIcon from "@mui/icons-material/Shuffle";
-
-import "./AdventureSheet.css";
+import CloseIcon from "@mui/icons-material/Close";
+// Models
 import { Theme } from "../../../models/enums";
 import { IAdventureSheet, AdventureSheetModel } from "../../../models/AventureSheet";
-import { shuffleArray } from "../../../utils/utils";
-import Button from "@mui/material/Button";
 import { TurningPointModel } from "../../../models/TurningPoint";
-import TurningPointForm from "../../molecules/TurningPointForm/TurningPointForm";
-import { Divider, MenuItem, Select } from "@mui/material";
 import { PlotPointModel } from "../../../models/PlotPoint";
+// Utils
+import { getEnumNameByValue, shuffleArray } from "../../../utils/utils";
+// Style
+import "./AdventureSheet.css";
 
 const AdventureSheet: React.FC = () => {
   const [sheet, setSheet] = useState<IAdventureSheet>(new AdventureSheetModel());
+  const [snackbarState, setSnackbarState] = useState({ open: false, message: "" });
 
   const randomizeThemes = () => {
     const themes = Object.keys(Theme);
@@ -38,7 +46,14 @@ const AdventureSheet: React.FC = () => {
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
-    console.log(sheet);
+    const jsonString = JSON.stringify(sheet, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `save.json`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleOnAddTurningPointClick = () => {
@@ -49,19 +64,39 @@ const AdventureSheet: React.FC = () => {
     const sheetToUpdate = { ...sheet };
     sheetToUpdate.turningPoints[index][key] = value;
     setSheet(sheetToUpdate);
-  }
+  };
 
-  const handleOnAddPlotPointClick = (index:number) => {
+  const handleOnAddPlotPointClick = (index: number) => {
     const sheetToUpdate = { ...sheet };
     sheetToUpdate.turningPoints[index].plotPoints.push(new PlotPointModel());
     setSheet(sheetToUpdate);
-  }
+  };
 
-  const handleOnPlotPointValueChange = (turningPointIndex:number, plotPointIndex:number, key: string, value: any) => {
+  const handleOnPlotPointValueChange = (turningPointIndex: number, plotPointIndex: number, key: string, value: any) => {
     const sheetToUpdate = { ...sheet };
     sheetToUpdate.turningPoints[turningPointIndex].plotPoints[plotPointIndex][key] = value;
     setSheet(sheetToUpdate);
-  }
+  };
+
+  const handleOnSnackbarClose = () => {
+    setSnackbarState({ open: false, message: "" });
+  };
+
+  const handleOnRollPlotPointClick = () => {
+    const themeRoll = Math.ceil(Math.random() * 10);
+    const plotPointRoll = Math.ceil(Math.random() * 100);
+    let themeResult = Theme.Action;
+    if (themeRoll <= 4) {
+      themeResult = sheet.theme1!;
+    } else if (themeRoll <= 7) {
+      themeResult = sheet.theme2!;
+    } else if (themeRoll <= 9) {
+      themeResult = sheet.theme3!;
+    } else {
+      themeResult = sheet.theme4!;
+    }
+    setSnackbarState({ open: true, message: `Theme: ${getEnumNameByValue(Theme, themeResult)}, Plot Point: ${plotPointRoll}` });
+  };
 
   return (
     <div className="AdventureSheet">
@@ -140,18 +175,34 @@ const AdventureSheet: React.FC = () => {
             {sheet.turningPoints.map((value, index) => (
               <Grid size={12} key={index}>
                 <Divider />
-                <TurningPointForm index={index} values={value} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} />
+                <TurningPointForm index={index} values={value} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
               </Grid>
             ))}
             <Grid size={12}>
               <Button onClick={handleOnAddTurningPointClick}>Add Turning Point</Button>
             </Grid>
-            <Grid size={12}>
-              <Button type="submit">Save</Button>
+            <Grid size={6}>
+              <Button type="submit" color="primary">Save</Button>
+            </Grid>
+            <Grid size={6}>
+              <Button color="secondary">Load</Button>
             </Grid>
           </Grid>
         </form>
       </Paper>
+      <Snackbar
+        open={snackbarState.open}
+        autoHideDuration={6000}
+        onClose={handleOnSnackbarClose}
+        message={snackbarState.message}
+        action={
+          <React.Fragment>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleOnSnackbarClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </div>
   );
 };
