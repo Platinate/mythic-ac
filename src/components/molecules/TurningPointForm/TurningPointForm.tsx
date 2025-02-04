@@ -53,17 +53,26 @@ const TurningPointForm: React.FC<IProps> = (props) => {
             <Input id="plotline" name="plotline" aria-describedby="helper-plotline" value={props.values.plotlineId} onChange={handleOnChange} />
           </FormControl>
         </Grid>
-        <Grid size={6}><h4>Plot Point</h4></Grid>
-        <Grid size={6}><h4>Invoked Characters</h4></Grid>
-        {props.values.plotPoints.map((pp, index) => (
-          <Grid size={12} key={index}>
-            <PlotPointForm values={pp} index={index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
-          </Grid>
-        ))}
+        <Grid size={6}>
+          <h4>Plot Point</h4>
+        </Grid>
+        <Grid size={6}>
+          <h4>Invoked Characters</h4>
+        </Grid>
         <Grid size={12}>
-          <Button variant="contained" onClick={() => props.onAddPlotPointClick(props.index)}>
-            Add Plot Point
-          </Button>
+          <PlotPointForm values={props.values.plotPoint1} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+        </Grid>
+        <Grid size={12}>
+          <PlotPointForm values={props.values.plotPoint2} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+        </Grid>
+        <Grid size={12}>
+          <PlotPointForm values={props.values.plotPoint3} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+        </Grid>
+        <Grid size={12}>
+          <PlotPointForm values={props.values.plotPoint4} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+        </Grid>
+        <Grid size={12}>
+          <PlotPointForm values={props.values.plotPoint5} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
           <FormControl>

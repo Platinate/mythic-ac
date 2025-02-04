@@ -18,30 +18,31 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import CloseIcon from "@mui/icons-material/Close";
 // Models
 import { Theme } from "../../../models/enums";
-import { IAdventureSheet, AdventureSheetModel } from "../../../models/AdventureSheet";
-import { TurningPointModel } from "../../../models/TurningPoint";
-import { PlotPointModel } from "../../../models/PlotPoint";
 // Utils
 import { getEnumNameByValue, shuffleArray } from "../../../utils/utils";
 // Style
 import "./AdventureSheet.css";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/stores";
+import { addTurningPoint, updateState } from "../../../redux/reducers/adventureReducer";
 
 const AdventureSheet: React.FC = () => {
-  const [sheet, setSheet] = useState<IAdventureSheet>(new AdventureSheetModel());
+  const dispatch = useDispatch();
+  const sheet = useSelector((state: RootState) => state.adventure);
   const [snackbarState, setSnackbarState] = useState({ open: false, message: "" });
-
+  console.log("[SHEET]", sheet);
   const randomizeThemes = () => {
     const themes = Object.keys(Theme);
     const keys = themes.slice(0, themes.length / 2).map((k) => parseInt(k));
     const shuffledValues = shuffleArray(keys);
     console.log(shuffledValues);
-    setSheet((sheet) => ({ ...sheet, theme1: shuffledValues[0], theme2: shuffledValues[1], theme3: shuffledValues[2], theme4: shuffledValues[3], theme5: shuffledValues[4] }));
+    dispatch(updateState({ theme1: shuffledValues[0], theme2: shuffledValues[1], theme3: shuffledValues[2], theme4: shuffledValues[3], theme5: shuffledValues[4] }));
   };
 
   const handleOnChange = (evt: any) => {
     const name = evt.target.name;
     const value = evt.target.value;
-    setSheet((sheet) => ({ ...sheet, [name]: value }));
+    dispatch(updateState({ ...sheet, [name]: value }));
   };
 
   const handleOnSubmit = (evt) => {
@@ -57,25 +58,25 @@ const AdventureSheet: React.FC = () => {
   };
 
   const handleOnAddTurningPointClick = () => {
-    setSheet((sheet) => ({ ...sheet, turningPoints: [...sheet.turningPoints, new TurningPointModel()] }));
+    dispatch(addTurningPoint());
   };
 
   const handleOnTurningPointValueChange = (index: number, key: string, value: any) => {
-    const sheetToUpdate = { ...sheet };
-    sheetToUpdate.turningPoints[index][key] = value;
-    setSheet(sheetToUpdate);
+    // const sheetToUpdate = { ...sheet };
+    // sheetToUpdate.turningPoints[index][key] = value;
+    // setSheet(sheetToUpdate);
   };
 
   const handleOnAddPlotPointClick = (index: number) => {
-    const sheetToUpdate = { ...sheet };
-    sheetToUpdate.turningPoints[index].plotPoints.push(new PlotPointModel());
-    setSheet(sheetToUpdate);
+    // const sheetToUpdate = { ...sheet };
+    // sheetToUpdate.turningPoints[index].plotPoints.push(new PlotPointModel());
+    // setSheet(sheetToUpdate);
   };
 
   const handleOnPlotPointValueChange = (turningPointIndex: number, plotPointIndex: number, key: string, value: any) => {
-    const sheetToUpdate = { ...sheet };
-    sheetToUpdate.turningPoints[turningPointIndex].plotPoints[plotPointIndex][key] = value;
-    setSheet(sheetToUpdate);
+    // const sheetToUpdate = { ...sheet };
+    // sheetToUpdate.turningPoints[turningPointIndex].plotPoints[plotPointIndex][key] = value;
+    // setSheet(sheetToUpdate);
   };
 
   const handleOnSnackbarClose = () => {
@@ -182,7 +183,9 @@ const AdventureSheet: React.FC = () => {
               <Button onClick={handleOnAddTurningPointClick}>Add Turning Point</Button>
             </Grid>
             <Grid size={6}>
-              <Button type="submit" color="primary">Save</Button>
+              <Button type="submit" color="primary">
+                Save
+              </Button>
             </Grid>
             <Grid size={6}>
               <Button color="secondary">Load</Button>
