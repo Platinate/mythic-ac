@@ -30,7 +30,7 @@ const AdventureSheet: React.FC = () => {
   const dispatch = useDispatch();
   const sheet = useSelector((state: RootState) => state.adventure);
   const [snackbarState, setSnackbarState] = useState({ open: false, message: "" });
-  console.log("[SHEET]", sheet);
+
   const randomizeThemes = () => {
     const themes = Object.keys(Theme);
     const keys = themes.slice(0, themes.length / 2).map((k) => parseInt(k));
@@ -117,7 +117,7 @@ const AdventureSheet: React.FC = () => {
               <FormControl>
                 <Input placeholder="Date" id="date" name="date" aria-describedby="helper-date" value={sheet.date} onChange={handleOnChange} />
               </FormControl>
-              <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 4, textAlign: "left" }}>
+              <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 8, borderRadius: 5, textAlign: "left" }}>
                 <h3 style={{ margin: 0 }}>Themes</h3>
                 <IconButton aria-label="randomize" size="small" onClick={randomizeThemes}>
                   <ShuffleIcon style={{ color: " white" }} />
@@ -173,10 +173,10 @@ const AdventureSheet: React.FC = () => {
                 </Select>
               </FormControl>
             </Grid>
-            {sheet.turningPoints.map((value, index) => (
-              <Grid size={12} key={index}>
+            {sheet.turningPoints.map((value) => (
+              <Grid size={12} key={value.id}>
                 <Divider />
-                <TurningPointForm index={index} values={value} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
+                <TurningPointForm index={value.id} values={value} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
               </Grid>
             ))}
             <Grid size={12}>

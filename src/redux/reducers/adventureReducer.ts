@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAdventureSheet } from "../../models/AdventureSheet";
-import { TurningPointModel } from "../../models/TurningPoint";
+import { ITurningPoint, TurningPointModel } from "../../models/TurningPoint";
 import { Theme } from "../../models/enums";
 
 const initialState: IAdventureSheet = {
@@ -24,10 +24,19 @@ const adventureSlice = createSlice({
         },
         addTurningPoint: (state) => {
             state.turningPoints.push(new TurningPointModel());
+        },
+        deleteTurningPoint: (state, action: PayloadAction<number>) => {
+            state.turningPoints = state.turningPoints.filter(tp => tp.id != action.payload);
+        },
+        updateTurningPoint: (state, action: PayloadAction<{id:number, values: ITurningPoint}>) => {
+            const index = state.turningPoints.findIndex(tp => tp.id === action.payload.id);
+            if(index > -1) {
+                state.turningPoints[index] = action.payload.values;
+            }
         }
     }
 })
 
-export const { updateState , addTurningPoint } = adventureSlice.actions;
+export const { updateState , addTurningPoint, deleteTurningPoint, updateTurningPoint } = adventureSlice.actions;
 
 export default adventureSlice.reducer;

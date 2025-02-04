@@ -6,11 +6,15 @@ import Input from "@mui/material/Input";
 import { PlotlineStatus } from "../../../models/enums";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
 
 import "./TurningPointForm.css";
 import PlotPointForm from "../PlotPointForm/PlotPointForm";
 import TextField from "@mui/material/TextField";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTurningPoint } from "../../../redux/reducers/adventureReducer";
+import { RootState } from "../../../redux/stores";
+import Button from "@mui/material/Button";
+import Add from "@mui/icons-material/Add";
 
 interface IProps {
   index: number;
@@ -21,8 +25,10 @@ interface IProps {
   onRollPlotPoint: () => void;
 }
 const TurningPointForm: React.FC<IProps> = (props) => {
+  const dispatch = useDispatch();
+  const plotlines = useSelector((state: RootState) => state.plotlines);
   const handleOnChange = (evt) => {
-    props.onValueChange(props.index, evt.target.name, evt.target.value);
+    dispatch(updateTurningPoint({ id: props.index, values: { ...props.values, [evt.target.name]: evt.target.value } }));
   };
 
   const handleOnPlotPointValueChange = (plotPointIndex: number, key: string, value: any) => {
@@ -30,15 +36,9 @@ const TurningPointForm: React.FC<IProps> = (props) => {
   };
   return (
     <div className="TurningPointForm">
-      <Grid container spacing={2}>
-        <Grid size={2}>Turnign Point</Grid>
-        <Grid size={1}>
-          <FormControl>
-            <Input id="number" name="number" aria-describedby="helper-number" value={props.values.number} onChange={handleOnChange} />
-          </FormControl>
-        </Grid>
+      <Grid container spacing={2} alignItems="center">
         <Grid size={1}>Status</Grid>
-        <Grid size={2}>
+        <Grid size={3}>
           <FormControl>
             <Select size="small" id="plotlineStatus" name="plotlineStatus" value={props.values.plotlineStatus} onChange={handleOnChange}>
               <MenuItem value={PlotlineStatus.New}>New</MenuItem>
@@ -47,11 +47,20 @@ const TurningPointForm: React.FC<IProps> = (props) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid size={2}>Plotline</Grid>
+        <Grid size={2}>
+          Plotline
+        </Grid>
         <Grid size={4}>
           <FormControl>
-            <Input id="plotline" name="plotline" aria-describedby="helper-plotline" value={props.values.plotlineId} onChange={handleOnChange} />
+            <Select size="small" id="plotlineId" name="plotlineId" value={props.values.plotlineId} onChange={handleOnChange}>
+              {plotlines.map((pl) => (
+                <MenuItem value={pl.id}>{pl.name}</MenuItem>
+              ))}
+            </Select>
           </FormControl>
+        </Grid>
+        <Grid size={2}>
+          <Button startIcon={<Add/>} variant="contained">Add plotline</Button>
         </Grid>
         <Grid size={6}>
           <h4>Plot Point</h4>
