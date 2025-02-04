@@ -18,7 +18,7 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import CloseIcon from "@mui/icons-material/Close";
 // Models
 import { Theme } from "../../../models/enums";
-import { IAdventureSheet, AdventureSheetModel } from "../../../models/AventureSheet";
+import { IAdventureSheet, AdventureSheetModel } from "../../../models/AdventureSheet";
 import { TurningPointModel } from "../../../models/TurningPoint";
 import { PlotPointModel } from "../../../models/PlotPoint";
 // Utils

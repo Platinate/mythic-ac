@@ -50,7 +50,7 @@ const TurningPointForm: React.FC<IProps> = (props) => {
         <Grid size={2}>Plotline</Grid>
         <Grid size={4}>
           <FormControl>
-            <Input id="plotline" name="plotline" aria-describedby="helper-plotline" value={props.values.plotline} onChange={handleOnChange} />
+            <Input id="plotline" name="plotline" aria-describedby="helper-plotline" value={props.values.plotlineId} onChange={handleOnChange} />
           </FormControl>
         </Grid>
         <Grid size={6}><h4>Plot Point</h4></Grid>

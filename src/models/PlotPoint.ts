@@ -1,14 +1,14 @@
 export interface IPlotPoint {
     event: string;
-    characters: string;
+    charactersInvoked: string[];
 }
 
 export class PlotPointModel implements IPlotPoint {
     constructor() {
         this.event = '';
-        this.characters = '';
+        this.charactersInvoked = [];
     }
 
     event: string;
-    characters: '';
+    charactersInvoked: string[];
 }

@@ -29,7 +29,7 @@ const PlotPointForm: React.FC<IProps> = (props) => {
         </Grid>
         <Grid size={6}>
           <FormControl>
-            <Input id="characters" name="characters" aria-describedby="helper-characters" value={props.values.characters} onChange={handleOnChange} />
+            <Input id="characters" name="characters" aria-describedby="helper-characters" value={props.values.charactersInvoked} onChange={handleOnChange} />
           </FormControl>
         </Grid>
       </Grid>

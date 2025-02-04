@@ -12,3 +12,7 @@ export function getEnumNameByValue(enumObj: any, value: number): string | undefi
     const index = values.indexOf(value);
     return index !== -1 ? keys[index] : undefined;
 }
+
+export const generateRandomId = ():number => {
+    return Math.floor(Math.random()*1000);
+}
