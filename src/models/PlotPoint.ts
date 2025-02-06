@@ -1,6 +1,6 @@
 export interface IPlotPoint {
     event: string;
-    charactersInvoked: string[];
+    charactersInvoked: number[];
 }
 
 export class PlotPointModel implements IPlotPoint {
@@ -10,5 +10,5 @@ export class PlotPointModel implements IPlotPoint {
     }
 
     event: string;
-    charactersInvoked: string[];
+    charactersInvoked: number[];
 }

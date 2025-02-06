@@ -14,5 +14,5 @@ export enum Theme {
 
 export enum SlotType {
     New,
-    MoreLogical
+    MostLogical
 }

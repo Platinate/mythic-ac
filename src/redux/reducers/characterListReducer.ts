@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SlotType } from "../../models/enums";
-import { IPlotlineSlot } from "../../models/PlotlineSlot";
+import { ICharacterSlot } from "../../models/CharacterSlot";
 
-const initialState: IPlotlineSlot[] = [
+const initialState: ICharacterSlot[] = [
     {
         id: 1,
         startRange: 1,
         endRange: 4,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const initialState: IPlotlineSlot[] = [
         id: 3,
         startRange: 9,
         endRange: 12,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 4,
@@ -31,7 +31,7 @@ const initialState: IPlotlineSlot[] = [
         id: 5,
         startRange: 17,
         endRange: 20,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 6,
@@ -43,7 +43,7 @@ const initialState: IPlotlineSlot[] = [
         id: 7,
         startRange: 25,
         endRange: 28,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 8,
@@ -55,7 +55,7 @@ const initialState: IPlotlineSlot[] = [
         id: 9,
         startRange: 33,
         endRange: 36,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 10,
@@ -67,7 +67,7 @@ const initialState: IPlotlineSlot[] = [
         id: 11,
         startRange: 41,
         endRange: 44,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 12,
@@ -79,7 +79,7 @@ const initialState: IPlotlineSlot[] = [
         id: 13,
         startRange: 49,
         endRange: 52,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 14,
@@ -91,7 +91,7 @@ const initialState: IPlotlineSlot[] = [
         id: 15,
         startRange: 57,
         endRange: 60,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 16,
@@ -103,7 +103,7 @@ const initialState: IPlotlineSlot[] = [
         id: 17,
         startRange: 65,
         endRange: 68,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 18,
@@ -115,7 +115,7 @@ const initialState: IPlotlineSlot[] = [
         id: 19,
         startRange: 73,
         endRange: 76,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 20,
@@ -127,7 +127,7 @@ const initialState: IPlotlineSlot[] = [
         id: 21,
         startRange: 81,
         endRange: 84,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 22,
@@ -139,7 +139,7 @@ const initialState: IPlotlineSlot[] = [
         id: 23,
         startRange: 89,
         endRange: 92,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     },
     {
         id: 24,
@@ -151,23 +151,23 @@ const initialState: IPlotlineSlot[] = [
         id: 25,
         startRange: 97,
         endRange: 100,
-        slotType: SlotType.MostLogical
+        slotType: SlotType.New
     }
 ];
 
-const plotlineListReducer = createSlice({
-    name: 'plotlineList',
+const characterListReducer = createSlice({
+    name: 'characterList',
     initialState: initialState,
     reducers: {
-        registerPlotline: (state, action: PayloadAction<number>) => {
-            const index = state.findIndex(pls => !pls.plotlineId);
+        registerCharacter: (state, action: PayloadAction<number>) => {
+            const index = state.findIndex(pls => !pls.characterId);
             if (index > -1) {
-                state[index].plotlineId = action.payload;
+                state[index].characterId = action.payload;
             }
         }
     }
 })
 
-export const { registerPlotline } = plotlineListReducer.actions;
+export const { registerCharacter } = characterListReducer.actions;
 
-export default plotlineListReducer.reducer;
+export default characterListReducer.reducer;

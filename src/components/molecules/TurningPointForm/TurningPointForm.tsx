@@ -72,10 +72,6 @@ const TurningPointForm: React.FC<IProps> = (props) => {
     setModalState({ open: false, text: "" });
   };
 
-  const handleOnPlotPointValueChange = (plotPointIndex: number, key: string, value: any) => {
-    props.onPlotPointValueChange(props.index, plotPointIndex, key, value);
-  };
-
   return (
     <div className="TurningPointForm">
       <Grid container spacing={2} alignItems="center">
@@ -116,19 +112,19 @@ const TurningPointForm: React.FC<IProps> = (props) => {
           <h4>Invoked Characters</h4>
         </Grid>
         <Grid size={12}>
-          <PlotPointForm values={props.values.plotPoint1} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+          <PlotPointForm values={props.values.plotPoint1} name="plotPoint1" turningPointId={props.values.id} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
-          <PlotPointForm values={props.values.plotPoint2} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+          <PlotPointForm values={props.values.plotPoint2} name="plotPoint2" turningPointId={props.values.id} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
-          <PlotPointForm values={props.values.plotPoint3} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+          <PlotPointForm values={props.values.plotPoint3} name="plotPoint3" turningPointId={props.values.id} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
-          <PlotPointForm values={props.values.plotPoint4} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+          <PlotPointForm values={props.values.plotPoint4} name="plotPoint4" turningPointId={props.values.id} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
-          <PlotPointForm values={props.values.plotPoint5} index={props.index} onValueChange={handleOnPlotPointValueChange} onRollPlotPoint={props.onRollPlotPoint} />
+          <PlotPointForm values={props.values.plotPoint5} name="plotPoint5" turningPointId={props.values.id} onRollPlotPoint={props.onRollPlotPoint} />
         </Grid>
         <Grid size={12}>
           <FormControl>

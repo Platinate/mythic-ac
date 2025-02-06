@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAdventureSheet } from "../../models/AdventureSheet";
 import { ITurningPoint, TurningPointModel } from "../../models/TurningPoint";
 import { Theme } from "../../models/enums";
+import { IPlotPoint } from "../../models/PlotPoint";
 
 const initialState: IAdventureSheet = {
     name: "",
@@ -28,15 +29,22 @@ const adventureSlice = createSlice({
         deleteTurningPoint: (state, action: PayloadAction<number>) => {
             state.turningPoints = state.turningPoints.filter(tp => tp.id != action.payload);
         },
-        updateTurningPoint: (state, action: PayloadAction<{id:number, values: ITurningPoint}>) => {
+        updateTurningPoint: (state, action: PayloadAction<{ id: number, values: ITurningPoint }>) => {
             const index = state.turningPoints.findIndex(tp => tp.id === action.payload.id);
-            if(index > -1) {
+            if (index > -1) {
                 state.turningPoints[index] = action.payload.values;
+            }
+        },
+        updatePlotPoint: (state, action: PayloadAction<{ turningPointId: number, propName: string, values: IPlotPoint }>) => {
+            debugger;
+            const index = state.turningPoints.findIndex(tp => tp.id === action.payload.turningPointId);
+            if (index > -1) {
+                state.turningPoints[index][action.payload.propName] = action.payload.values;
             }
         }
     }
 })
 
-export const { updateState , addTurningPoint, deleteTurningPoint, updateTurningPoint } = adventureSlice.actions;
+export const { updateState, addTurningPoint, deleteTurningPoint, updateTurningPoint, updatePlotPoint } = adventureSlice.actions;
 
 export default adventureSlice.reducer;

@@ -8,6 +8,9 @@ import Slot from "../../molecules/Slot/Slot";
 const ListSheet: React.FC = () => {
   const plotlineList = useSelector((state: RootState) => state.plotlineList);
   const plotlines = useSelector((state: RootState) => state.plotlines);
+  
+  const characterList = useSelector((state: RootState) => state.characterList);
+  const characters = useSelector((state: RootState) => state.characters);
 
   return (
     <div className="ListSheet">
@@ -27,7 +30,11 @@ const ListSheet: React.FC = () => {
             <Slot id={slot.plotlineId} list={plotlines} slot={slot} key={slot.id} />
           ))}
         </Grid>
-        <Grid size={6}></Grid>
+        <Grid size={6}>
+          {characterList.map((slot) => (
+            <Slot id={slot.characterId} list={characters} slot={slot} key={slot.id} />
+          ))}
+        </Grid>
       </Grid>
     </div>
   );
