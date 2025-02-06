@@ -11,3 +11,8 @@ export enum Theme {
     Personal,
     Social
 }
+
+export enum SlotType {
+    New,
+    MoreLogical
+}

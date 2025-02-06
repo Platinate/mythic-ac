@@ -7,12 +7,16 @@ import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Snackbar from "@mui/material/Snackbar";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
+import { Add, PlusOne } from "@mui/icons-material";
 // Components
 import TurningPointForm from "../../molecules/TurningPointForm/TurningPointForm";
+import ThemeSelect from "../../atoms/ThemeSelect/ThemeSelect";
 // MUI Icons
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,16 +24,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Theme } from "../../../models/enums";
 // Utils
 import { getEnumNameByValue, shuffleArray } from "../../../utils/utils";
-// Style
-import "./AdventureSheet.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/stores";
 import { addTurningPoint, updateState } from "../../../redux/reducers/adventureReducer";
+// Style
+import "./AdventureSheet.css";
 
 const AdventureSheet: React.FC = () => {
   const dispatch = useDispatch();
   const sheet = useSelector((state: RootState) => state.adventure);
   const [snackbarState, setSnackbarState] = useState({ open: false, message: "" });
+  const [selectedTab, setSelectedTab] = React.useState<number>(0);
 
   const randomizeThemes = () => {
     const themes = Object.keys(Theme);
@@ -101,7 +106,6 @@ const AdventureSheet: React.FC = () => {
 
   return (
     <div className="AdventureSheet">
-      <Paper style={{ padding: 16 }}>
         <form onSubmit={handleOnSubmit}>
           <Grid container spacing={2}>
             <Grid size={8} direction="column">
@@ -124,63 +128,41 @@ const AdventureSheet: React.FC = () => {
                 </IconButton>
               </div>
               <FormControl style={{ width: "100%" }}>
-                <Select size="small" id="theme1" name="theme1" value={sheet.theme1} onChange={handleOnChange}>
-                  <MenuItem value={Theme.Action}>Action</MenuItem>
-                  <MenuItem value={Theme.Tension}>Tension</MenuItem>
-                  <MenuItem value={Theme.Mystery}>Mystery</MenuItem>
-                  <MenuItem value={Theme.Personal}>Personal</MenuItem>
-                  <MenuItem value={Theme.Social}>Social</MenuItem>
-                </Select>
+                <ThemeSelect id="theme1" name="theme1" value={sheet.theme1} onChange={handleOnChange} />
               </FormControl>
               <div style={{ margin: "8px 0" }} />
               <FormControl style={{ width: "100%" }}>
-                <Select size="small" id="theme2" name="theme2" value={sheet.theme2} onChange={handleOnChange}>
-                  <MenuItem value={Theme.Action}>Action</MenuItem>
-                  <MenuItem value={Theme.Tension}>Tension</MenuItem>
-                  <MenuItem value={Theme.Mystery}>Mystery</MenuItem>
-                  <MenuItem value={Theme.Personal}>Personal</MenuItem>
-                  <MenuItem value={Theme.Social}>Social</MenuItem>
-                </Select>
+                <ThemeSelect id="theme2" name="theme2" value={sheet.theme2} onChange={handleOnChange} />
               </FormControl>
               <div style={{ margin: "8px 0" }} />
               <FormControl style={{ width: "100%" }}>
-                <Select size="small" id="theme3" name="theme3" value={sheet.theme3} onChange={handleOnChange}>
-                  <MenuItem value={Theme.Action}>Action</MenuItem>
-                  <MenuItem value={Theme.Tension}>Tension</MenuItem>
-                  <MenuItem value={Theme.Mystery}>Mystery</MenuItem>
-                  <MenuItem value={Theme.Personal}>Personal</MenuItem>
-                  <MenuItem value={Theme.Social}>Social</MenuItem>
-                </Select>{" "}
+                <ThemeSelect id="theme3" name="theme3" value={sheet.theme3} onChange={handleOnChange} />
               </FormControl>
               <div style={{ margin: "8px 0" }} />
               <FormControl style={{ width: "100%" }}>
-                <Select size="small" id="theme4" name="theme4" value={sheet.theme4} onChange={handleOnChange}>
-                  <MenuItem value={Theme.Action}>Action</MenuItem>
-                  <MenuItem value={Theme.Tension}>Tension</MenuItem>
-                  <MenuItem value={Theme.Mystery}>Mystery</MenuItem>
-                  <MenuItem value={Theme.Personal}>Personal</MenuItem>
-                  <MenuItem value={Theme.Social}>Social</MenuItem>
-                </Select>{" "}
+                <ThemeSelect id="theme4" name="theme4" value={sheet.theme4} onChange={handleOnChange} />
               </FormControl>
               <div style={{ margin: "8px 0" }} />
               <FormControl style={{ width: "100%" }}>
-                <Select size="small" id="theme5" name="theme5" value={sheet.theme5} onChange={handleOnChange}>
-                  <MenuItem value={Theme.Action}>Action</MenuItem>
-                  <MenuItem value={Theme.Tension}>Tension</MenuItem>
-                  <MenuItem value={Theme.Mystery}>Mystery</MenuItem>
-                  <MenuItem value={Theme.Personal}>Personal</MenuItem>
-                  <MenuItem value={Theme.Social}>Social</MenuItem>
-                </Select>
+                <ThemeSelect id="theme5" name="theme5" value={sheet.theme5} onChange={handleOnChange} />
               </FormControl>
             </Grid>
-            {sheet.turningPoints.map((value) => (
-              <Grid size={12} key={value.id}>
-                <Divider />
-                <TurningPointForm index={value.id} values={value} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
-              </Grid>
-            ))}
             <Grid size={12}>
-              <Button onClick={handleOnAddTurningPointClick}>Add Turning Point</Button>
+              <TabContext value={selectedTab}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList onChange={(_evt, newValue) => setSelectedTab(newValue)} aria-label="lab API tabs example">
+                    {sheet.turningPoints.map((tp, index) => (
+                      <Tab key={tp.id} label={index + 1} value={index} />
+                    ))}
+                    <Tab onClick={handleOnAddTurningPointClick} label={<Add color="primary"/>}/>
+                  </TabList>
+                </Box>
+                {sheet.turningPoints.map((tp, index) => (
+                  <TabPanel key={tp.id} value={index}>
+                    <TurningPointForm index={tp.id} values={tp} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
+                  </TabPanel>
+                ))}
+              </TabContext>
             </Grid>
             <Grid size={6}>
               <Button type="submit" color="primary">
@@ -192,7 +174,6 @@ const AdventureSheet: React.FC = () => {
             </Grid>
           </Grid>
         </form>
-      </Paper>
       <Snackbar
         open={snackbarState.open}
         autoHideDuration={6000}

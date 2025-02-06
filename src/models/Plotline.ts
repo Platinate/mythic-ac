@@ -1,6 +1,7 @@
 import { generateRandomId } from "../utils/utils";
+import { IListItem } from "./ListItem";
 
-export interface IPlotline {
+export interface IPlotline extends IListItem {
     id: number;
     name: string;
 }
