@@ -162,7 +162,9 @@ const characterListReducer = createSlice({
         registerCharacter: (state, action: PayloadAction<number>) => {
             const index = state.findIndex(pls => !pls.characterId);
             if (index > -1) {
-                state[index].characterId = action.payload;
+                const listUpdated = [...state];
+                listUpdated[index].characterId = action.payload;
+                state = listUpdated;
             }
         }
     }

@@ -21,7 +21,9 @@ const charactersReducer = createSlice({
         updateCharacter: (state, action: PayloadAction<{ id: number, values: ICharacter }>) => {
             const index = state.findIndex(pl => pl.id === action.payload.id);
             if (index > -1) {
-                state[index] = action.payload.values;
+                const listUpdated = [...state];
+                listUpdated[index] = action.payload.values;
+                state = listUpdated;
             }
         }
     }

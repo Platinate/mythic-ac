@@ -162,7 +162,9 @@ const plotlineListReducer = createSlice({
         registerPlotline: (state, action: PayloadAction<number>) => {
             const index = state.findIndex(pls => !pls.plotlineId);
             if (index > -1) {
-                state[index].plotlineId = action.payload;
+                const listUpdated = [...state];
+                listUpdated[index].plotlineId = action.payload;
+                state = listUpdated;
             }
         }
     }
