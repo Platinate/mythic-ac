@@ -13,10 +13,21 @@ const ListSheet: React.FC = () => {
     <div className="ListSheet">
       <Grid container spacing={2}>
         <Grid size={6}>
+          <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 8, borderRadius: 5, textAlign: "left" }}>
+            <h3 style={{ margin: 0 }}>Plotlines</h3>
+          </div>
+        </Grid>
+        <Grid size={6}>
+          <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 8, borderRadius: 5, textAlign: "left" }}>
+            <h3 style={{ margin: 0 }}>Characters</h3>
+          </div>
+        </Grid>
+        <Grid size={6}>
           {plotlineList.map((slot) => (
             <Slot id={slot.plotlineId} list={plotlines} slot={slot} key={slot.id} />
           ))}
         </Grid>
+        <Grid size={6}></Grid>
       </Grid>
     </div>
   );

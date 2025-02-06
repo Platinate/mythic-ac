@@ -19,7 +19,7 @@ const Slot:React.FC<IProps> = ({slot, list, id}) => {
                 {slot.startRange}-{slot.endRange}
             </Grid>
             <Grid size={10}>
-                {slot.slotType === SlotType.New ? <Select style={{width: "100%"}} label="New" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select> : <Select style={{width: "100%"}} label="Pick more logical" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select>}
+                {slot.slotType === SlotType.New ? <Select size="small" style={{width: "100%"}} label="New" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select> : <Select size="small" style={{width: "100%"}} label="Pick more logical" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select>}
             </Grid>
         </Grid>
     </div>)

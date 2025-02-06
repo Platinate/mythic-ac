@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Paper style={{ padding: 16, width: "95%", margin: "0 auto" }}>
         <TabContext value={selectedSheet}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={(_evt, value) => setSelectedSheet(value)} aria-label="lab API tabs example">
+            <TabList onChange={(_evt, value) => setSelectedSheet(value)} centered> 
               <Tab label="Adventure" value="adventure" />
               <Tab label="List" value="list" />
             </TabList>
