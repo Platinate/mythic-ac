@@ -32,10 +32,10 @@ import "./AdventureSheet.css";
 
 const AdventureSheet: React.FC = () => {
   const dispatch = useDispatch();
-  const sheet = useSelector((state: RootState) => state.adventure);
+  const adventure = useSelector((state: RootState) => state.adventure);
   const [snackbarState, setSnackbarState] = useState({ open: false, message: "" });
   const [selectedTab, setSelectedTab] = React.useState<number>(0);
-
+  console.log("[ADVENTURE]", adventure);
   const randomizeThemes = () => {
     const themes = Object.keys(Theme);
     const keys = themes.slice(0, themes.length / 2).map((k) => parseInt(k));
@@ -47,12 +47,12 @@ const AdventureSheet: React.FC = () => {
   const handleOnChange = (evt: any) => {
     const name = evt.target.name;
     const value = evt.target.value;
-    dispatch(updateState({ ...sheet, [name]: value }));
+    dispatch(updateState({ ...adventure, [name]: value }));
   };
 
   const handleOnSubmit = (evt) => {
     evt.preventDefault();
-    const jsonString = JSON.stringify(sheet, null, 2);
+    const jsonString = JSON.stringify(adventure, null, 2);
     const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -67,9 +67,10 @@ const AdventureSheet: React.FC = () => {
   };
 
   const handleOnTurningPointValueChange = (index: number, key: string, value: any) => {
-    // const sheetToUpdate = { ...sheet };
-    // sheetToUpdate.turningPoints[index][key] = value;
-    // setSheet(sheetToUpdate);
+    // debugger;
+    // let turningPoinstToUpdate = [...adventure.turningPoints];
+    // turningPoinstToUpdate[index][key] = value;
+    // dispatch(updateState({turningPoints: turningPoinstToUpdate}));
   };
 
   const handleOnAddPlotPointClick = (index: number) => {
@@ -93,87 +94,87 @@ const AdventureSheet: React.FC = () => {
     const plotPointRoll = Math.ceil(Math.random() * 100);
     let themeResult = Theme.Action;
     if (themeRoll <= 4) {
-      themeResult = sheet.theme1!;
+      themeResult = adventure.theme1!;
     } else if (themeRoll <= 7) {
-      themeResult = sheet.theme2!;
+      themeResult = adventure.theme2!;
     } else if (themeRoll <= 9) {
-      themeResult = sheet.theme3!;
+      themeResult = adventure.theme3!;
     } else {
-      themeResult = sheet.theme4!;
+      themeResult = adventure.theme4!;
     }
     setSnackbarState({ open: true, message: `Theme: ${getEnumNameByValue(Theme, themeResult)}, Plot Point: ${plotPointRoll}` });
   };
 
   return (
     <div className="AdventureSheet">
-        <form onSubmit={handleOnSubmit}>
-          <Grid container spacing={2}>
-            <Grid size={8} direction="column">
-              <FormControl>
-                <Input placeholder="Name" id="name" name="name" aria-describedby="helper-name" value={sheet.name} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0" }} />
-              <FormControl>
-                <TextField placeholder="Notes" id="notes" name="notes" aria-describedby="helper-notes" multiline value={sheet.notes} onChange={handleOnChange} />
-              </FormControl>
-            </Grid>
-            <Grid size={4}>
-              <FormControl>
-                <Input placeholder="Date" id="date" name="date" aria-describedby="helper-date" value={sheet.date} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 8, borderRadius: 5, textAlign: "left" }}>
-                <h3 style={{ margin: 0 }}>Themes</h3>
-                <IconButton aria-label="randomize" size="small" onClick={randomizeThemes}>
-                  <ShuffleIcon style={{ color: " white" }} />
-                </IconButton>
-              </div>
-              <FormControl style={{ width: "100%" }}>
-                <ThemeSelect id="theme1" name="theme1" value={sheet.theme1} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0" }} />
-              <FormControl style={{ width: "100%" }}>
-                <ThemeSelect id="theme2" name="theme2" value={sheet.theme2} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0" }} />
-              <FormControl style={{ width: "100%" }}>
-                <ThemeSelect id="theme3" name="theme3" value={sheet.theme3} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0" }} />
-              <FormControl style={{ width: "100%" }}>
-                <ThemeSelect id="theme4" name="theme4" value={sheet.theme4} onChange={handleOnChange} />
-              </FormControl>
-              <div style={{ margin: "8px 0" }} />
-              <FormControl style={{ width: "100%" }}>
-                <ThemeSelect id="theme5" name="theme5" value={sheet.theme5} onChange={handleOnChange} />
-              </FormControl>
-            </Grid>
-            <Grid size={12}>
-              <TabContext value={selectedTab}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <TabList onChange={(_evt, newValue) => setSelectedTab(newValue)} aria-label="lab API tabs example">
-                    {sheet.turningPoints.map((tp, index) => (
-                      <Tab key={tp.id} label={index + 1} value={index} />
-                    ))}
-                    <Tab onClick={handleOnAddTurningPointClick} label={<Add color="primary"/>}/>
-                  </TabList>
-                </Box>
-                {sheet.turningPoints.map((tp, index) => (
-                  <TabPanel key={tp.id} value={index}>
-                    <TurningPointForm index={tp.id} values={tp} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
-                  </TabPanel>
-                ))}
-              </TabContext>
-            </Grid>
-            <Grid size={6}>
-              <Button type="submit" color="primary">
-                Save
-              </Button>
-            </Grid>
-            <Grid size={6}>
-              <Button color="secondary">Load</Button>
-            </Grid>
+      <form onSubmit={handleOnSubmit}>
+        <Grid container spacing={2}>
+          <Grid size={8} direction="column">
+            <FormControl>
+              <Input placeholder="Name" id="name" name="name" aria-describedby="helper-name" value={adventure.name} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0" }} />
+            <FormControl>
+              <TextField placeholder="Notes" id="notes" name="notes" aria-describedby="helper-notes" multiline value={adventure.notes} onChange={handleOnChange} />
+            </FormControl>
           </Grid>
-        </form>
+          <Grid size={4}>
+            <FormControl>
+              <Input placeholder="Date" id="date" name="date" aria-describedby="helper-date" value={adventure.date} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0", display: "flex", alignItems: "center", justifyContent: " space-between", color: "white", background: "black", padding: 8, borderRadius: 5, textAlign: "left" }}>
+              <h3 style={{ margin: 0 }}>Themes</h3>
+              <IconButton aria-label="randomize" size="small" onClick={randomizeThemes}>
+                <ShuffleIcon style={{ color: " white" }} />
+              </IconButton>
+            </div>
+            <FormControl style={{ width: "100%" }}>
+              <ThemeSelect id="theme1" name="theme1" value={adventure.theme1} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0" }} />
+            <FormControl style={{ width: "100%" }}>
+              <ThemeSelect id="theme2" name="theme2" value={adventure.theme2} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0" }} />
+            <FormControl style={{ width: "100%" }}>
+              <ThemeSelect id="theme3" name="theme3" value={adventure.theme3} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0" }} />
+            <FormControl style={{ width: "100%" }}>
+              <ThemeSelect id="theme4" name="theme4" value={adventure.theme4} onChange={handleOnChange} />
+            </FormControl>
+            <div style={{ margin: "8px 0" }} />
+            <FormControl style={{ width: "100%" }}>
+              <ThemeSelect id="theme5" name="theme5" value={adventure.theme5} onChange={handleOnChange} />
+            </FormControl>
+          </Grid>
+          <Grid size={12}>
+            <TabContext value={selectedTab}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList onChange={(_evt, newValue) => setSelectedTab(newValue)} aria-label="lab API tabs example">
+                  {adventure.turningPoints.map((tp, index) => (
+                    <Tab key={tp.id} label={index + 1} value={index} />
+                  ))}
+                  <Tab onClick={handleOnAddTurningPointClick} label={<Add color="primary" />} />
+                </TabList>
+              </Box>
+              {adventure.turningPoints.map((tp, index) => (
+                <TabPanel key={tp.id} value={index}>
+                  <TurningPointForm id={tp.id} index={index} values={tp} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
+                </TabPanel>
+              ))}
+            </TabContext>
+          </Grid>
+          <Grid size={6}>
+            <Button type="submit" color="primary">
+              Save
+            </Button>
+          </Grid>
+          <Grid size={6}>
+            <Button color="secondary">Load</Button>
+          </Grid>
+        </Grid>
+      </form>
       <Snackbar
         open={snackbarState.open}
         autoHideDuration={6000}

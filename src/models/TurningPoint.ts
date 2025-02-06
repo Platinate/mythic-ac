@@ -1,6 +1,6 @@
 import { generateRandomId } from "../utils/utils";
 import { PlotlineStatus } from "./enums";
-import { IPlotPoint, PlotPointModel } from "./PlotPoint";
+import { IPlotPoint } from "./PlotPoint";
 
 export interface ITurningPoint {
     id: number;
@@ -19,11 +19,12 @@ export class TurningPointModel implements ITurningPoint {
     constructor() {
         this.id = generateRandomId();
         this.plotlineStatus = PlotlineStatus.New;
-        this.plotPoint1 = new PlotPointModel();
-        this.plotPoint2 = new PlotPointModel();
-        this.plotPoint3 = new PlotPointModel();
-        this.plotPoint4 = new PlotPointModel();
-        this.plotPoint5 = new PlotPointModel();
+        this.plotlineId = undefined;
+        this.plotPoint1 = {event: '', charactersInvoked: []};
+        this.plotPoint2 =  {event: '', charactersInvoked: []};
+        this.plotPoint3 =  {event: '', charactersInvoked: []};
+        this.plotPoint4 =  {event: '', charactersInvoked: []};
+        this.plotPoint5 =  {event: '', charactersInvoked: []};
         this.notes = '';
     }
 

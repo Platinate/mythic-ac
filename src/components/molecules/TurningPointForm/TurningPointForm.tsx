@@ -10,7 +10,7 @@ import "./TurningPointForm.css";
 import PlotPointForm from "../PlotPointForm/PlotPointForm";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTurningPoint, deleteTurningPoint } from "../../../redux/reducers/adventureReducer";
+import { updateTurningPoint, deleteTurningPoint, updateState } from "../../../redux/reducers/adventureReducer";
 import { RootState } from "../../../redux/stores";
 import Button from "@mui/material/Button";
 import Add from "@mui/icons-material/Add";
@@ -25,7 +25,8 @@ import { generateRandomId } from "../../../utils/utils";
 import { registerPlotline, updatePlotlineSlot } from "../../../redux/reducers/plotlineListReducer";
 
 interface IProps {
-  index: number;
+  id: number;
+  index:number;
   values: ITurningPoint;
   onValueChange: (index: number, key: string, value: any) => void;
   onAddPlotPointClick: (index: number) => void;
@@ -41,7 +42,7 @@ const style = {
   width: 400,
   bgcolor: "background.paper",
   color: "black",
-  border: "2px solid #000",
+  borderRadius: 2,
   boxShadow: 24,
   p: 4,
   display: "flex",
@@ -56,11 +57,11 @@ const TurningPointForm: React.FC<IProps> = (props) => {
   const [modalState, setModalState] = React.useState({ open: false, text: "" });
 
   const handleOnChange = (evt) => {
-    dispatch(updateTurningPoint({ id: props.index, values: { ...props.values, [evt.target.name]: evt.target.value } }));
+    dispatch(updateTurningPoint({ id: props.id, values: { ...props.values, [evt.target.name]: evt.target.value } }));
   };
 
   const handleOnDeleteClick = (evt) => {
-    dispatch(deleteTurningPoint(props.index));
+    dispatch(deleteTurningPoint(props.id));
   };
 
   const handleOnPlotlineUpdateClick = (evt) => {
@@ -69,6 +70,7 @@ const TurningPointForm: React.FC<IProps> = (props) => {
     newPlotline.name = modalState.text;
     dispatch(addPlotline(newPlotline));
     dispatch(registerPlotline(newPlotline.id));
+    props.onValueChange(props.index, "plotlineId", newPlotline.id);
     setModalState({ open: false, text: "" });
   };
 

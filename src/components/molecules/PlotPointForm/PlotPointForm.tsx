@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import MenuItem from "@mui/material/MenuItem";
 import { updatePlotPoint } from "../../../redux/reducers/adventureReducer";
+import { IconButton } from "@mui/material";
+import { Add, Cancel, Save } from "@mui/icons-material";
 
 interface IProps {
   turningPointId: number;
@@ -25,7 +27,7 @@ const PlotPointForm: React.FC<IProps> = (props) => {
   const characters = useSelector((state: RootState) => state.characters);
 
   const handleOnChange = (evt) => {
-    dispatch(updatePlotPoint({turningPointId: props.turningPointId, propName: props.name, values: {...props.values, [evt.target.name] : evt.target.value }}));
+    dispatch(updatePlotPoint({ turningPointId: props.turningPointId, propName: props.name, values: { ...props.values, [evt.target.name]: evt.target.value } }));
   };
 
   return (
@@ -41,7 +43,7 @@ const PlotPointForm: React.FC<IProps> = (props) => {
             <Input id="event" name="event" aria-describedby="helper-event" value={props.values.event} onChange={handleOnChange} />
           </FormControl>
         </Grid>
-        <Grid size={6}>
+        <Grid size={5}>
           <FormControl>
             <Select
               size="small"
@@ -54,7 +56,7 @@ const PlotPointForm: React.FC<IProps> = (props) => {
               renderValue={(selected) => (
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    <Chip key={value} label={<div>{characters.find((c) => c.id === value)!.name}</div>} />
                   ))}
                 </Box>
               )}
@@ -66,6 +68,11 @@ const PlotPointForm: React.FC<IProps> = (props) => {
               ))}
             </Select>
           </FormControl>
+        </Grid>
+        <Grid size={1}>
+          <IconButton color="primary">
+            <Add />
+          </IconButton>
         </Grid>
       </Grid>
     </div>
