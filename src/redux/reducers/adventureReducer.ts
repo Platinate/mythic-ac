@@ -31,6 +31,7 @@ const adventureSlice = createSlice({
           id: generateRandomId(),
           notes: "",
           plotlineStatus: PlotlineStatus.New,
+          plotlineId: -1,
           plotPoint1: { event: "", charactersInvoked: [] },
           plotPoint2: { event: "", charactersInvoked: [] },
           plotPoint3: { event: "", charactersInvoked: [] },

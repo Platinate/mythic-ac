@@ -1,29 +1,37 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import "./App.css";
-import AdventureSheet from "./components/pages/AdventureSheet/AdventureSheet";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Paper } from "@mui/material";
-import ListSheet from "./components/pages/ListSheet/ListSheet";
+
+const AdventureSheet = lazy(() => import("./components/pages/AdventureSheet/AdventureSheet"));
+const ListSheet = lazy(() => import("./components/pages/ListSheet/ListSheet"));
+const Setup = lazy(() => import("./components/pages/Setup/Setup"));
 
 const App: React.FC = () => {
-  const [selectedSheet, setSelectedSheet] = React.useState<"adventure" | "list">("adventure");
+  const [selectedSheet, setSelectedSheet] = React.useState<"adventure" | "list" | "setup">("adventure");
   return (
     <div className="App">
       <Paper style={{ padding: 16, width: "95%", margin: "0 auto" }}>
         <TabContext value={selectedSheet}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={(_evt, value) => setSelectedSheet(value)} centered> 
+            <TabList onChange={(_evt, value) => setSelectedSheet(value)} centered>
               <Tab label="Adventure" value="adventure" />
               <Tab label="List" value="list" />
+              <Tab label="Setup" value="setup" />
             </TabList>
           </Box>
-          <TabPanel value="adventure">
-            <AdventureSheet />
-          </TabPanel>
-          <TabPanel value="list">
-            <ListSheet />
-          </TabPanel>
+          <Suspense fallback={<p>Loading...</p>}>
+            <TabPanel value="adventure">
+              <AdventureSheet />
+            </TabPanel>
+            <TabPanel value="list">
+              <ListSheet />
+            </TabPanel>
+            <TabPanel value="setup">
+              <Setup/>
+            </TabPanel>
+          </Suspense>
         </TabContext>
       </Paper>
     </div>

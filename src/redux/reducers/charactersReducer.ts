@@ -1,19 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICharacter, Character } from "../../models/Character";
+import { ICharacter } from "../../models/Character";
+import { generateRandomId } from "../../utils/utils";
 
-const initialState: ICharacter[] = [
-    {
-        id: 1,
-        name: "Jean Phi"
-    }
-];
+const initialState: ICharacter[] = [];
 
 const charactersReducer = createSlice({
     name: 'plotLines',
     initialState: initialState,
     reducers: {
         addCharacter: (state, action: PayloadAction<Partial<ICharacter>>) => {
-            state.push({ ...new Character(), ...action.payload });
+            state.push({ ...{id: generateRandomId(), name: ''}, ...action.payload });
         },
         deleteCharacter: (state, action: PayloadAction<number>) => {
             state = state.filter(pl => pl.id != action.payload);

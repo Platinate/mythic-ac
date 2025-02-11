@@ -1,36 +1,36 @@
 import React from "react";
-import { ITurningPoint } from "../../../models/TurningPoint";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import Grid from "@mui/material/Grid2";
 import FormControl from "@mui/material/FormControl";
-import { PlotlineStatus } from "../../../models/enums";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-
-import "./TurningPointForm.css";
 import PlotPointForm from "../PlotPointForm/PlotPointForm";
 import TextField from "@mui/material/TextField";
-import { useDispatch, useSelector } from "react-redux";
-import { updateTurningPoint, deleteTurningPoint, updateState } from "../../../redux/reducers/adventureReducer";
-import { RootState } from "../../../redux/stores";
 import Button from "@mui/material/Button";
 import Add from "@mui/icons-material/Add";
-import { Delete, DisplaySettings } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Input from "@mui/material/Input";
+
+import { ITurningPoint } from "../../../models/TurningPoint";
+import { updateTurningPoint, deleteTurningPoint } from "../../../redux/reducers/adventureReducer";
+import { RootState } from "../../../redux/stores";
 import { addPlotline } from "../../../redux/reducers/plotlinesReducer";
-import { Plotline } from "../../../models/Plotline";
+import { IPlotline } from "../../../models/Plotline";
 import { generateRandomId } from "../../../utils/utils";
-import { registerPlotline, updatePlotlineSlot } from "../../../redux/reducers/plotlineListReducer";
+import { registerPlotline } from "../../../redux/reducers/plotlineListReducer";
+import { PlotlineStatus } from "../../../models/enums";
+
+import "./TurningPointForm.css";
 
 interface IProps {
   id: number;
-  index:number;
+  index: number;
   values: ITurningPoint;
-  onValueChange: (index: number, key: string, value: any) => void;
-  onAddPlotPointClick: (index: number) => void;
-  onPlotPointValueChange: (turningPointindex: number, plotPointIndex: number, key: string, value: any) => void;
   onRollPlotPoint: () => void;
 }
 
@@ -53,7 +53,7 @@ const style = {
 const TurningPointForm: React.FC<IProps> = (props) => {
   const dispatch = useDispatch();
   const plotlines = useSelector((state: RootState) => state.plotlines);
-
+  console.log(props.values, plotlines);
   const [modalState, setModalState] = React.useState({ open: false, text: "" });
 
   const handleOnChange = (evt) => {
@@ -65,12 +65,12 @@ const TurningPointForm: React.FC<IProps> = (props) => {
   };
 
   const handleOnPlotlineUpdateClick = (evt) => {
-    const newPlotline = new Plotline();
+    const newPlotline: IPlotline = { id: 0, name: "" };
     newPlotline.id = generateRandomId();
     newPlotline.name = modalState.text;
     dispatch(addPlotline(newPlotline));
     dispatch(registerPlotline(newPlotline.id));
-    props.onValueChange(props.index, "plotlineId", newPlotline.id);
+    dispatch(updateTurningPoint({ id: props.id, values: { ...props.values, plotlineId: newPlotline.id } }));
     setModalState({ open: false, text: "" });
   };
 
@@ -92,7 +92,7 @@ const TurningPointForm: React.FC<IProps> = (props) => {
           <FormControl>
             <Select size="small" id="plotlineId" name="plotlineId" value={props.values.plotlineId} onChange={handleOnChange}>
               {plotlines.map((pl) => (
-                <MenuItem value={pl.id}>{pl.name}</MenuItem>
+                <MenuItem key={pl.id} value={pl.id}>{pl.name}</MenuItem>
               ))}
             </Select>
           </FormControl>

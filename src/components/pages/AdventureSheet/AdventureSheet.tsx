@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // MUI Components
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
 import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
@@ -13,7 +12,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
-import { Add, PlusOne } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 // Components
 import TurningPointForm from "../../molecules/TurningPointForm/TurningPointForm";
 import ThemeSelect from "../../atoms/ThemeSelect/ThemeSelect";
@@ -40,7 +39,6 @@ const AdventureSheet: React.FC = () => {
     const themes = Object.keys(Theme);
     const keys = themes.slice(0, themes.length / 2).map((k) => parseInt(k));
     const shuffledValues = shuffleArray(keys);
-    console.log(shuffledValues);
     dispatch(updateState({ theme1: shuffledValues[0], theme2: shuffledValues[1], theme3: shuffledValues[2], theme4: shuffledValues[3], theme5: shuffledValues[4] }));
   };
 
@@ -64,25 +62,6 @@ const AdventureSheet: React.FC = () => {
 
   const handleOnAddTurningPointClick = () => {
     dispatch(addTurningPoint());
-  };
-
-  const handleOnTurningPointValueChange = (index: number, key: string, value: any) => {
-    // debugger;
-    // let turningPoinstToUpdate = [...adventure.turningPoints];
-    // turningPoinstToUpdate[index][key] = value;
-    // dispatch(updateState({turningPoints: turningPoinstToUpdate}));
-  };
-
-  const handleOnAddPlotPointClick = (index: number) => {
-    // const sheetToUpdate = { ...sheet };
-    // sheetToUpdate.turningPoints[index].plotPoints.push(new PlotPointModel());
-    // setSheet(sheetToUpdate);
-  };
-
-  const handleOnPlotPointValueChange = (turningPointIndex: number, plotPointIndex: number, key: string, value: any) => {
-    // const sheetToUpdate = { ...sheet };
-    // sheetToUpdate.turningPoints[turningPointIndex].plotPoints[plotPointIndex][key] = value;
-    // setSheet(sheetToUpdate);
   };
 
   const handleOnSnackbarClose = () => {
@@ -109,7 +88,7 @@ const AdventureSheet: React.FC = () => {
     <div className="AdventureSheet">
       <form onSubmit={handleOnSubmit}>
         <Grid container spacing={2}>
-          <Grid size={8} direction="column">
+          <Grid size={8} >
             <FormControl>
               <Input placeholder="Name" id="name" name="name" aria-describedby="helper-name" value={adventure.name} onChange={handleOnChange} />
             </FormControl>
@@ -160,7 +139,7 @@ const AdventureSheet: React.FC = () => {
               </Box>
               {adventure.turningPoints.map((tp, index) => (
                 <TabPanel key={tp.id} value={index}>
-                  <TurningPointForm id={tp.id} index={index} values={tp} onValueChange={handleOnTurningPointValueChange} onAddPlotPointClick={handleOnAddPlotPointClick} onPlotPointValueChange={handleOnPlotPointValueChange} onRollPlotPoint={handleOnRollPlotPointClick} />
+                  <TurningPointForm id={tp.id} index={index} values={tp} onRollPlotPoint={handleOnRollPlotPointClick} />
                 </TabPanel>
               ))}
             </TabContext>
