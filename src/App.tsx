@@ -3,6 +3,7 @@ import "./App.css";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Paper } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 const AdventureSheet = lazy(() => import("./components/pages/AdventureSheet/AdventureSheet"));
 const ListSheet = lazy(() => import("./components/pages/ListSheet/ListSheet"));
@@ -34,6 +35,7 @@ const App: React.FC = () => {
           </Suspense>
         </TabContext>
       </Paper>
+      <ToastContainer autoClose={2000} limit={3} />
     </div>
   );
 };

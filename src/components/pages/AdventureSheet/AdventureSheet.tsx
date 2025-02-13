@@ -28,6 +28,7 @@ import { RootState } from "../../../redux/stores";
 import { addTurningPoint, updateState } from "../../../redux/reducers/adventureReducer";
 // Style
 import "./AdventureSheet.css";
+import { toast } from "react-toastify";
 
 const AdventureSheet: React.FC = () => {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const AdventureSheet: React.FC = () => {
     } else {
       themeResult = adventure.theme4!;
     }
-    setSnackbarState({ open: true, message: `Theme: ${getEnumNameByValue(Theme, themeResult)}, Plot Point: ${plotPointRoll}` });
+    toast(`Theme: ${getEnumNameByValue(Theme, themeResult)}, Plot Point: ${plotPointRoll}`);
   };
 
   return (
