@@ -185,23 +185,19 @@ const plotlineListReducer = createSlice({
     initialState: initialState,
     reducers: {
         registerPlotline: (state, action: PayloadAction<number>) => {
-            const listToUpdate = state.sort((a) => a.startRange);
-            const index = listToUpdate.findIndex(pls => pls.plotlineId === -1);
+            const index = state.findIndex(pls => pls.plotlineId === -1);
             if (index > -1) {
-                listToUpdate[index].plotlineId = action.payload;
-                state = listToUpdate;
+                state[index].plotlineId = action.payload;
             }
         },
         removePlotline: (state, action: PayloadAction<number>) => {
-            const listUpdated = [...state.filter(pl => pl.plotlineId !== action.payload)];
-            state = listUpdated;
+            return state.filter(pl => pl.plotlineId !== action.payload);
         },
-        updateSlot: (state, action: PayloadAction<{slotId:number, propName:string, value:any}>) => {
-            const listToUpdate = state.sort((a) => a.startRange);
-            const slotIndex = listToUpdate.findIndex(sl => sl.id === action.payload.slotId);
-            if(slotIndex > -1){
-                listToUpdate[slotIndex][action.payload.propName] = action.payload.value;
-                state = listToUpdate
+        updateSlot: (state, action: PayloadAction<{ slotId: number, propName: string, value: any }>) => {
+            console.log(action);
+            const slotIndex = state.findIndex(sl => sl.id === action.payload.slotId);
+            if (slotIndex > -1) {
+                state[slotIndex] = { ...state[slotIndex], [action.payload.propName]: action.payload.value };
             }
         }
     }

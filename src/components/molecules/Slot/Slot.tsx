@@ -12,7 +12,7 @@ interface IProps {
     slot:ISlot;
     id?:number;
     list: IListItem[];
-    onChange: (id:number) => void;
+    onChange: (itemId: number) => void;
 }
 
 const Slot:React.FC<IProps> = ({slot, list, id, onChange}) => {
@@ -22,7 +22,7 @@ const Slot:React.FC<IProps> = ({slot, list, id, onChange}) => {
                 {slot.startRange}-{slot.endRange}
             </Grid>
             <Grid size={10}>
-                {slot.slotType === SlotType.New ? <Select onChange={() => onChange(slot.id)} size="small" style={{width: "100%"}} label="New" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select> : <Select onChange={() => onChange(slot.id)} size="small" style={{width: "100%"}} label="Pick more logical" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select>}
+                {slot.slotType === SlotType.New ? <Select onChange={(evt) => onChange(parseInt(evt.target.value))} size="small" style={{width: "100%"}} label="New" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select> : <Select onChange={(evt) => onChange(parseInt(evt.target.value))} size="small" style={{width: "100%"}} label="Pick more logical" value={id}>{list.map(item => <MenuItem value={item.id}>{item.name}</MenuItem>)}</Select>}
             </Grid>
         </Grid>
     </div>)

@@ -5,21 +5,19 @@ import { generateRandomId } from "../../utils/utils";
 const initialState: ICharacter[] = [];
 
 const charactersReducer = createSlice({
-    name: 'plotLines',
+    name: 'characters',
     initialState: initialState,
     reducers: {
         addCharacter: (state, action: PayloadAction<Partial<ICharacter>>) => {
-            state.push({ ...{id: generateRandomId(), name: ''}, ...action.payload });
+            state.push({ ...{ id: generateRandomId(), name: '' }, ...action.payload });
         },
         deleteCharacter: (state, action: PayloadAction<number>) => {
-            state = state.filter(pl => pl.id != action.payload);
+            return state.filter(pl => pl.id != action.payload);
         },
         updateCharacter: (state, action: PayloadAction<{ id: number, values: ICharacter }>) => {
             const index = state.findIndex(pl => pl.id === action.payload.id);
             if (index > -1) {
-                const listUpdated = [...state];
-                listUpdated[index] = action.payload.values;
-                state = listUpdated;
+                state[index] = action.payload.values;
             }
         }
     }

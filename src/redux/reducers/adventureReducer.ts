@@ -25,20 +25,17 @@ const adventureSlice = createSlice({
       Object.assign(state, action.payload);
     },
     addTurningPoint: (state) => {
-      state.turningPoints = [
-        ...state.turningPoints,
-        {
-          id: generateRandomId(),
-          notes: "",
-          plotlineStatus: PlotlineStatus.New,
-          plotlineId: -1,
-          plotPoint1: { event: "", charactersInvoked: [] },
-          plotPoint2: { event: "", charactersInvoked: [] },
-          plotPoint3: { event: "", charactersInvoked: [] },
-          plotPoint4: { event: "", charactersInvoked: [] },
-          plotPoint5: { event: "", charactersInvoked: [] },
-        },
-      ];
+      state.turningPoints.push({
+        id: generateRandomId(),
+        notes: "",
+        plotlineStatus: PlotlineStatus.New,
+        plotlineId: -1,
+        plotPoint1: { event: "", charactersInvoked: [] },
+        plotPoint2: { event: "", charactersInvoked: [] },
+        plotPoint3: { event: "", charactersInvoked: [] },
+        plotPoint4: { event: "", charactersInvoked: [] },
+        plotPoint5: { event: "", charactersInvoked: [] },
+      });
     },
     deleteTurningPoint: (state, action: PayloadAction<number>) => {
       state.turningPoints = state.turningPoints.filter((tp) => tp.id != action.payload);
@@ -46,17 +43,13 @@ const adventureSlice = createSlice({
     updateTurningPoint: (state, action: PayloadAction<{ id: number; values: ITurningPoint }>) => {
       const index = state.turningPoints.findIndex((tp) => tp.id === action.payload.id);
       if (index > -1) {
-        let updatedTurningPoints = [...state.turningPoints];
-        updatedTurningPoints[index] = action.payload.values;
-        state.turningPoints = updatedTurningPoints;
+        state.turningPoints[index] = action.payload.values;
       }
     },
     updatePlotPoint: (state, action: PayloadAction<{ turningPointId: number; propName: string; values: any }>) => {
-      let oldTurningPoints = [...state.turningPoints];
-      const index = oldTurningPoints.findIndex((tp) => tp.id === action.payload.turningPointId);
+      const index = state.turningPoints.findIndex((tp) => tp.id === action.payload.turningPointId);
       if (index > -1) {
-        oldTurningPoints[index][action.payload.propName] = action.payload.values;
-        state.turningPoints = oldTurningPoints;
+        state.turningPoints[index] = { ...state.turningPoints[index], [action.payload.propName]: action.payload.values };
       }
     },
   },

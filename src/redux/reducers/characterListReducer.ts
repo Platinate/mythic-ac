@@ -184,24 +184,19 @@ const characterListReducer = createSlice({
     name: 'characterList',
     initialState: initialState,
     reducers: {
-        registerPlotline: (state, action: PayloadAction<number>) => {
-            const listToUpdate = state.sort((a) => a.startRange);
-            const index = listToUpdate.findIndex(pls => pls.characterId === -1);
+        registerCharacter: (state, action: PayloadAction<number>) => {
+            const index = state.findIndex(pls => pls.characterId === -1);
             if (index > -1) {
-                listToUpdate[index].characterId = action.payload;
-                state = listToUpdate;
+                state[index].characterId = action.payload;
             }
         },
         removeCharacter: (state, action: PayloadAction<number>) => {
-            const listUpdated = [...state.filter(ch => ch.characterId !== action.payload)];
-            state = listUpdated;
+            return state.filter(ch => ch.characterId !== action.payload);
         },
         updateSlot: (state, action: PayloadAction<{slotId:number, propName:string, value:any}>) => {
-            const listToUpdate = state.sort((a) => a.startRange);
-            const slotIndex = listToUpdate.findIndex(sl => sl.id === action.payload.slotId);
-            if(slotIndex > -1){
-                listToUpdate[slotIndex][action.payload.propName] = action.payload.value;
-                state = listToUpdate
+            const slotIndex = state.findIndex(sl => sl.id === action.payload.slotId);
+            if (slotIndex > -1) {
+                state[slotIndex] = { ...state[slotIndex], [action.payload.propName]: action.payload.value };
             }
         }
     }

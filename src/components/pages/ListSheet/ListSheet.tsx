@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/stores";
 import Slot from "../../molecules/Slot/Slot";
 import { updateSlot as updatePlotlineSlot } from "../../../redux/reducers/plotlineListReducer";
-import { updateSlot as updateCharacterSlot } from "../../../redux/reducers/plotlineListReducer";
+import { updateSlot as updateCharacterSlot } from "../../../redux/reducers/characterListReducer";
 import Grid from "@mui/material/Grid2";
 
 
